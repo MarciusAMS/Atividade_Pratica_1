@@ -1,132 +1,101 @@
+import java.util.List;
 import java.util.Scanner;
 
-public class Veiculos{
-        private String codigo;
-        private String cor;
-        private String marca;
-        private String modelo;
-        private String valor;
+public abstract class Veiculos{
+    private String codigo;
+    private String cor;
+    private String marca;
+    private String modelo;
+    private String valor;
 
-        public Veiculos cadastrarVeiculoComum() {
-                Scanner scr = new Scanner(System.in);
+    public Veiculos(String codigo, String cor, String marca, String modelo, String valor) {
+        this.codigo = codigo;
+        this.cor = cor;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.valor = valor;
+    }
 
-                System.out.println("Informe o código do veiculo: ");
-                codigo = scr.nextLine().toUpperCase();
+    public String getCodigo() {
+        return codigo;
+    }
 
-                System.out.println("Informe a cor do veiculo: ");
-                cor = scr.nextLine().toUpperCase();
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+    public String getCor() {
+        return cor;
+    }
 
-                System.out.println("Informe a marca do veiculo : ");
-                marca = scr.nextLine().toUpperCase();
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
 
-                System.out.println("Informe o modelo do veiculo: ");
-                modelo = scr.nextLine().toUpperCase();
+    public String getMarca() {
+        return marca;
+    }
 
-                System.out.println("Informe o valor do veiculo: ");
-                valor = scr.nextLine().toUpperCase();
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
 
-                return new Veiculos(codigo, cor, marca, modelo, valor);
-        }
+    public String getModelo() {
+        return modelo;
+    }
 
-        public void cadastrarVeiculo() {
-                Scanner scr = new Scanner(System.in);
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
 
-                int opcao;
+    public String getValor() {
+        return valor;
+    }
 
-                do {
-                        System.out.println("\nQual tipo de veículo será cadastrado?");
-                        System.out.println("1 - Carro");
-                        System.out.println("2 - Moto");
-                        System.out.println("3 - Caminhão");
-                        System.out.println("4 - Bicicleta");
-                        System.out.println("5 - Voltar ao menu inicial");
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
 
-                        opcao = Integer.parseInt(scr.nextLine());
+    public static Veiculos cadastrarVeiculo(List<Veiculos> veiculosList) {
+        Scanner scr = new Scanner(System.in);
 
-                        Veiculos veiculos = null;
+        int opcao;
 
-                        switch (opcao) {
-                                case 1:
-                                        System.out.println("Veiculo Carro");
-                                        Carro carro = new Carro(codigo, cor, marca, modelo, valor);
-                                        veiculos = carro.cadastrarVeiculoComum();
-                                        carro.quantidadePortas();
-                                        break;
-                                case 2:
-                                        System.out.println("Veiculo Moto");
-                                        Moto moto = new Moto(codigo, cor, marca, modelo, valor);
-                                        veiculos = moto.cadastrarVeiculoComum();
-                                        moto.ptdEletrica();
-                                        moto.Cilindrada();
-                                        break;
-                                case 3:
-                                        System.out.println("Veiculo Caminhão");
-                                        Caminhoes caminhoes = new Caminhoes(codigo, cor, marca, modelo, valor);
-                                        veiculos = caminhoes.cadastrarVeiculoComum();
-                                        caminhoes.cargaMax();
-                                        caminhoes.numEixos();
-                                        break;
-                                case 4:
-                                        System.out.println("Veiculo Bicicleta");
-                                        Bicicleta bicicleta = new Bicicleta(codigo, cor, marca, modelo, valor);
-                                        veiculos = bicicleta.cadastrarVeiculoComum();
-                                        bicicleta.tipoFreio();
-                                        break;
-                                case 5:
-                                        return;
-                                default:
-                                        System.out.println("Opção inválida! Por favor selecione uma opção válida!!!");
-                        }
-                } while (opcao != 5);
+        do {
+            System.out.println("==============================================");
+            System.out.println("Qual tipo de veículo será cadastrado?");
+            System.out.println("1 - Carro");
+            System.out.println("2 - Moto");
+            System.out.println("3 - Caminhão");
+            System.out.println("4 - Bicicleta");
+            System.out.println("5 - Voltar ao menu inicial");
+            System.out.println("==============================================");
 
-                scr.close();
-        }
+            opcao = Integer.parseInt(scr.nextLine());
 
-        public Veiculos(String codigo, String cor, String marca, String modelo, String valor) {
-                this.codigo = codigo;
-                this.cor = cor;
-                this.marca = marca;
-                this.modelo = modelo;
-                this.valor = valor;
-        }
+            switch (opcao) {
+                case 1:
+                    Carro carro = Carro.cadastrarVeiculo();
+                    veiculosList.add(carro);
+                    return carro;
+                case 2:
+                    Moto moto = Moto.cadastrarVeiculo();
+                    veiculosList.add(moto);
+                    return moto;
+                case 3:
+                    Caminhoes caminhoes = Caminhoes.cadastrarVeiculo();
+                    veiculosList.add(caminhoes);
+                    return caminhoes;
+                case 4:
+                    Bicicleta bicicleta = Bicicleta.cadastrarVeiculo();
+                    veiculosList.add(bicicleta);
+                    return bicicleta;
+                case 5:
+                    return null; // Volta ao menu principal
+                default:
+                    System.out.println("Opção inválida! Por favor selecione uma opção válida!!!");
+            }
+        } while (true);
+    }
 
-        public String getCodigo() {
-                return codigo;
-        }
-
-        public void setCodigo(String codigo) {
-                this.codigo = codigo;
-        }
-
-        public String getCor() {
-                return cor;
-        }
-
-        public void setCor(String cor) {
-                this.cor = cor;
-        }
-
-        public String getMarca() {
-                return marca;
-        }
-
-        public void setMarca(String marca) {
-                this.marca = marca;
-        }
-
-        public String getModelo() {
-                return modelo;
-        }
-
-        public void setModelo(String modelo) {
-                this.modelo = modelo;
-        }
-
-        public String getValor() {
-                return valor;
-        }
-
-        public void setValor(String valor) {
-                this.valor = valor;
-        }
+    public abstract void imprimirInformacoesEspecificas();
 }
